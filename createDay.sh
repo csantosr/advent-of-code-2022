@@ -12,5 +12,6 @@ else
 fi
 
 touch input.txt
+touch __init__.py
 
 cd ..
