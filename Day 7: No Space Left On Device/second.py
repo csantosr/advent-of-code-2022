@@ -3,7 +3,7 @@ import FileTree
 
 inputFile = open('./input.txt', 'r')
 
-# First Star
+# Second Star
 root = FileTree.FileTree('/', True)
 current = root
 add_to_current = False

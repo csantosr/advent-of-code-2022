@@ -1,6 +1,6 @@
 inputFile = open('./input.txt', 'r')
 
-# First Star
+# Second Star
 message = ''
 for line in inputFile:
     message = line.replace('\n', '')
