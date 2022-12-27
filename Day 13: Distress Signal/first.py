@@ -1,6 +1,3 @@
-from collections import defaultdict
-from functools import cmp_to_key
-
 with open('input.txt') as file:
     lines = [line.strip() for line in file.readlines()]
 
