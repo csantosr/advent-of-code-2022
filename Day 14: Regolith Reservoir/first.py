@@ -4,7 +4,8 @@ with open('input.txt') as file:
 blocked_steps = set()
 # First Star
 for line in lines:
-    steps = list(map(lambda s: tuple(map(lambda n: int(n), s.split(','))), line.split(' -> ')))
+    steps = list(
+        map(lambda s: tuple(map(lambda n: int(n), s.split(','))), line.split(' -> ')))
     for idx in range(len(steps)-1):
         if steps[idx][0] == steps[idx+1][0]:
             for y_blocked in range(steps[idx][1], steps[idx+1][1], 1 if steps[idx+1][1] > steps[idx][1] else -1):
@@ -17,8 +18,8 @@ for line in lines:
 
 print(list(blocked_steps))
 
-minX=minY=10000
-maxX=maxY=0
+minX = minY = 10000
+maxX = maxY = 0
 for block in blocked_steps:
     if block[0] < minX:
         minX = block[0]
@@ -28,10 +29,41 @@ for block in blocked_steps:
         minY = block[1]
     if block[1] > maxY:
         maxY = block[1]
-for y in range(minY-5, maxY+5):
-    for x in range(minX-5, maxX+5):
-        if x == 500:
-            print('o', end='')
-        else:
-            print('#' if (x,y) in blocked_steps else '.', end='')
+minY -= 5
+maxY += 5
+minX -= 5
+maxX += 5
+for y in range(minY, maxY):
+    for x in range(minX, maxX):
+        print('#' if (x, y) in blocked_steps else '.', end='')
     print('')
+
+sand_resting = set()
+sand_count = 0
+finished = False
+while not finished:
+    unit = (500, minY)
+    resting = False
+    while not resting:
+        if unit[1] >= maxY:
+            resting = True
+            finished = True
+        if (unit[0], unit[1] + 1) not in blocked_steps.union(sand_resting):
+            unit = (unit[0], unit[1] + 1)
+            continue
+        if (unit[0]-1, unit[1] + 1) not in blocked_steps.union(sand_resting):
+            unit = (unit[0]-1, unit[1] + 1)
+            continue
+        if (unit[0]+1, unit[1] + 1) not in blocked_steps.union(sand_resting):
+            unit = (unit[0]+1, unit[1] + 1)
+            continue
+        resting = True
+    sand_resting.add(unit)
+    sand_count += 1
+
+for y in range(minY, maxY):
+    for x in range(minX, maxX):
+        print('#' if (x, y) in blocked_steps else 'o' if (x,y) in sand_resting else '.', end='')
+    print('')
+
+print(len(sand_resting) - 1)
